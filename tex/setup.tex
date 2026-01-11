@@ -228,41 +228,45 @@
 \setlength{\headheight}{28pt}
 \savegeometry{main} 
 
-% Logo 绘制逻辑：仅当文件存在时显示，移除之前的文字替代方案
+% Logo 绘制逻辑
 \newcommand{\DrawLogo}{%
   \IfFileExists{\LogoFile}{%
-    \includegraphics[height=0.8cm]{\LogoFile}%
-  }{}% 如果文件不存在，什么也不做，保持静默
+    \raisebox{-0.23cm}{\includegraphics[height=0.75cm]{\LogoFile}}%
+  }{}%
 }
 
 \pagestyle{fancy}
 \fancyhf{}
 
 % --- 页眉设置 ---
-% \fancyhead[L]{\DrawLogo} % 根据需要取消注释
-\fancyhead[R]{\small\sffamily\color{GrayText}\CourseName\ \textbar\ \AuthorName}
+% 左侧放 Logo（如果存在），视觉上更平衡
+\fancyhead[L]{\DrawLogo} 
+% 右侧放 课程名 | 报告标题（层级高）
+\fancyhead[R]{%
+    \small\sffamily\color{GrayText}%
+    \CourseName\ \quad\textcolor{BUPTBlue}{|}\quad \ReportTitle%
+}
 
-% --- 页眉分割线（使用 leaders 绘制精准颜色的实线） ---
+% --- 页眉分割线 ---
 \renewcommand{\headrulewidth}{0.6pt}
 \renewcommand{\headrule}{%
   \hbox to\headwidth{\color{BUPTBlue}\leaders\hrule height \headrulewidth\hfill}%
 }
 
 % --- 页脚设置 ---
-\fancyfoot[L]{\small\sffamily\color{GrayText}\ReportTitle}
+% 左侧放作者名（次要信息）
+\fancyfoot[L]{\small\sffamily\color{GrayText}\AuthorName}
 
-% [重点改进] 中间页脚：使用 makebox 固定宽度，防止页码位数变化导致色块抖动
-\fancyfoot[C]{%
-  \raisebox{0pt}[0pt][0pt]{%
-    \colorbox{BUPTBlue}{%
-      \makebox[2em][c]{% 设定 2em 固定宽度，内容居中
-        \color{white}\sffamily\bfseries\strut\thepage
-      }%
-    }%
-  }%
+% 右侧放页码：纯数字，蓝色加粗，不带框，更加清爽
+\fancyfoot[R]{%
+  \small\sffamily\color{GrayText}%
+  \ifMainMatter
+    \textbf{\color{BUPTBlue}\thepage}\ / \pageref{LastPage}%
+  \fi
 }
 
-\fancyfoot[R]{\small\sffamily\color{GrayText}\ifMainMatter 共\pageref{LastPage} 页\fi}
+% 取消页脚分割线（让页面下方留白更多，不压抑）
+\renewcommand{\footrulewidth}{0pt}
 
 % =========================================================
 % 7) TikZ / 电路图 / 绘图（按开关加载）
