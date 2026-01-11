@@ -52,7 +52,7 @@
   % 注意：ctexart 会自动加载 xeCJK，这里我们覆盖它的设置
   % 优先：思源宋体/黑体；保底：Windows 中易宋体/黑体 (SimSun/SimHei)
   
-  \ifXeTeX
+\ifXeTeX
     % XeTeX 下开启伪粗体 (AutoFakeBold)，防止粗体不显示
     \SetFontWithFallback{\setCJKmainfont}{
       AutoFakeBold=2, AutoFakeSlant=0.15
@@ -61,6 +61,11 @@
     \SetFontWithFallback{\setCJKsansfont}{
       AutoFakeBold=2
     }{思源黑体, Source Han Sans SC, Noto Sans CJK SC, Microsoft YaHei, 微软雅黑, SimHei, 黑体}
+
+    \SetFontWithFallback{\setCJKmonofont}{
+      AutoFakeBold=2
+    }{Noto Sans Mono CJK SC, Source Han Sans Mono SC, SimHei, 黑体}
+
   \else
     % LuaLaTeX 配置
     \SetFontWithFallback{\setCJKmainfont}{
@@ -68,6 +73,9 @@
     
     \SetFontWithFallback{\setCJKsansfont}{
     }{思源黑体, Source Han Sans SC, Noto Sans CJK SC, Microsoft YaHei, 微软雅黑, SimHei, 黑体}
+
+    \SetFontWithFallback{\setCJKmonofont}{
+    }{Noto Sans Mono CJK SC, Source Han Sans Mono SC, SimHei, 黑体}
   \fi
 
   % --- 3. 数学字体 ---
