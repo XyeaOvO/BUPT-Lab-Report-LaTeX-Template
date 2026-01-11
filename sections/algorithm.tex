@@ -1,0 +1,57 @@
+﻿\section{算法与代码}\label{sec:algorithm}
+\begin{algorithm}[htbp]
+\caption{重叠保存法快速卷积}\label{alg:os}
+\KwIn{输入序列 $x[n]$，FIR 滤波器 $h[n]$，块长 $L$}
+\KwOut{输出序列 $y[n]$}
+$N \leftarrow \text{length}(h)$，$P \leftarrow L+N-1$\;
+$H \leftarrow \mathrm{FFT}(h, P)$\;
+将 $x[n]$ 分为重叠长度为 $N-1$ 的块序列\tcp{首块补零}
+\For{$b\leftarrow 0$ \KwTo $B-1$}{
+  取块向量 $\bm{x}_b$ 并补零到长度 $P$\;
+  $X \leftarrow \mathrm{FFT}(\bm{x}_b, P)$\;
+  $Y \leftarrow X \odot H$\tcp{频域逐点乘法}
+  $y_b \leftarrow \mathrm{IFFT}(Y)$\;
+  丢弃前 $N-1$ 点，将后 $L$ 点拼接到输出\;
+}
+\end{algorithm}
+
+\ifUseBiblatex
+FFT 算法与快速卷积的经典描述可参考 \cite{cooley1965algorithm,proakis2007dsp}。
+\fi
+\ifUseGlossaries
+术语示例：\gls{fft}、\gls{dft}、\gls{fir}。
+\fi
+\ifUseIndex
+关键术语：重叠保存法\index{重叠保存法}、FFT\index{FFT}、卷积\index{卷积}。
+\fi
+\FloatBarrier
+\begin{maccode}{overlap_save.py}{Python}
+import numpy as np
+
+def overlap_save(x, h, block_len):
+    n = len(h)
+    p = block_len + n - 1
+    h_fft = np.fft.fft(h, p)
+    x = np.concatenate([np.zeros(n - 1), x])
+
+    out = []
+    step = block_len
+    for i in range(0, len(x) - (n - 1), step):
+        block = x[i:i + p]
+        if len(block) < p:
+            block = np.pad(block, (0, p - len(block)))
+        y = np.fft.ifft(np.fft.fft(block) * h_fft)
+        out.append(y[n - 1:n - 1 + block_len])
+    return np.concatenate(out).real
+\end{maccode}
+\FloatBarrier
+\begin{maccode}{window.c}{C}
+#include <math.h>
+
+void hann_window(double *w, int n) {
+    const double two_pi = 2.0 * M_PI;
+    for (int i = 0; i < n; ++i) {
+        w[i] = 0.5 - 0.5 * cos(two_pi * i / (n - 1));
+    }
+}
+\end{maccode}

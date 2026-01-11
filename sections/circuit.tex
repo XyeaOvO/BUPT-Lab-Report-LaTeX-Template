@@ -1,0 +1,23 @@
+﻿\section{电路图（circuitikz）}\label{sec:circuit}
+\ifUseCircuitikz
+\begin{figure}[htbp]
+\centering
+\begin{circuitikz}
+  \draw (0,0) to[sV, l_=$V_{in}$] (0,3)
+        to[R, l=$R_1$] (3,3)
+        to[L, l=$L$] (6,3)
+        to[C, l=$C$] (6,0) -- (0,0);
+  \draw (6,3) -- (7,3) node[right]{$V_{out}$};
+  \draw (3,3) to[C, l_=$C_f$] (3,0);
+\end{circuitikz}
+\caption{RLC 低通滤波器示意}\label{fig:filter}
+\end{figure}
+
+\begin{tipbox}
+该电路的标称截止频率可近似写为 $\omega_c \approx 1/\sqrt{LC}$，用于说明电路参数与频率响应之间的关系。
+\end{tipbox}
+\else
+\begin{warnbox}
+电路图模块当前关闭：将 `\UseCircuitikztrue` 打开即可编译本节内容。
+\end{warnbox}
+\fi

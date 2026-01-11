@@ -1,0 +1,29 @@
+﻿\appendix
+\section{附录：补充材料与整页插图}\label{sec:appendix}
+\begin{tipbox}
+附录适合放置原始数据、完整推导或整页截图。若存在外部 PDF，可直接整页插入。
+\end{tipbox}
+
+\IfFileExists{appendix.pdf}{
+  \includepdf[pages=-]{appendix.pdf}
+}{
+  \begin{warnbox}
+  未检测到 `appendix.pdf`，请将外部材料放到项目根目录后再启用整页插入。
+  \end{warnbox}
+}
+
+\subsection{符号与参数补充表}
+\begin{table}[htbp]
+\centering
+\caption{符号说明}\label{tab:symbols}
+\begin{tabular}{ll}
+\toprule
+符号 & 含义 \\
+\midrule
+$N$ & DFT 点数 \\
+$L$ & 分块长度 \\
+$f_s$ & 采样频率 \\
+$\omega_c$ & 截止角频率 \\
+\bottomrule
+\end{tabular}
+\end{table}

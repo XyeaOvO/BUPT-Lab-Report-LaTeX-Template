@@ -1,0 +1,61 @@
+﻿% =========================================================
+% 0) 元信息：只改这里
+% =========================================================
+\newcommand{\SchoolName}{Future School, BUPT}
+\newcommand{\CourseName}{现代信号处理}
+\newcommand{\ReportType}{综合示范文档}
+\newcommand{\ReportTitle}{LaTeX实验报告模板}
+\newcommand{\ExperimentName}{示范项目：模板工程化与全功能演示}
+\newcommand{\AuthorName}{王嘉然}
+\newcommand{\StudentID}{2023212666}
+\newcommand{\ClassName}{23级}
+\newcommand{\Instructor}{教授}
+\newcommand{\LogoFile}{logo.png} % 不存在则自动绘制简易Logo
+\newcommand{\ReportDate}{\today}
+
+% =========================================================
+% 1) 功能开关（true/false）
+% =========================================================
+% === 字体与数学公式 ===
+\newif\ifUseUnicodeMath \UseUnicodeMathtrue   % 开关：是否使用 unicode-math 宏包
+                                              % 注释：仅适用于 XeLaTeX 或 LuaLaTeX 引擎。
+                                              %       利用 Unicode 字体排版数学公式。
+                                              %       如果使用 pdfLaTeX 或与其他数学包冲突，请设为 false。
+
+% === 代码高亮 ===
+\newif\ifUseMinted      \UseMintedtrue        % 开关：是否使用 minted 宏包进行代码高亮
+                                              % 注释：minted 效果很好但依赖 Python 的 Pygments 库。
+                                              %       注意：启用此项编译时必须添加命令行参数 -shell-escape。
+
+% === 绘图工具 ===
+\newif\ifUseCircuitikz  \UseCircuitikztrue    % 开关：是否使用 circuitikz 宏包
+                                              % 注释：用于绘制电路图（基于 TikZ）。
+
+\newif\ifUsePgfplots    \UsePgfplotstrue      % 开关：是否使用 pgfplots 宏包
+                                              % 注释：用于绘制高质量的科学函数图、数据统计图（2D/3D）。
+
+% === 文献与索引 ===
+\newif\ifUseBiblatex    \UseBiblatextrue      % 开关：是否使用 biblatex 进行文献管理
+                                              % 注释：现代的文献管理方式，替代传统的 BibTeX。
+
+\newif\ifUseGlossaries  \UseGlossariestrue    % 开关：是否使用 glossaries 宏包
+                                              % 注释：用于制作术语表、缩略语表（Acronyms）。
+
+\newif\ifUseIndex       \UseIndextrue         % 开关：是否生成索引
+                                              % 注释：通常对应 makeidx 或 imakeidx 宏包，用于生成文末的书籍索引。
+
+% === 辅助工具 ===
+\newif\ifUseTodo        \UseTodofalse          % 开关：是否使用 todonotes 宏包
+                                              % 注释：用于在文档边缘或文中添加“待办事项”标注，定稿时通常设为 false。
+
+\newif\ifUseWatermark   \UseWatermarkfalse     % 开关：是否添加水印
+                                              % 注释：用于在页面背景添加“草稿”、“机密”或校徽等水印。
+
+% === 页面状态逻辑 ===
+% Page-count state: set true for main matter
+\newif\ifMainMatter
+\MainMatterfalse                              % 开关：标记当前是否处于“正文（Main Matter）”部分
+                                              % 注释：这不是加载宏包的开关，而是一个逻辑状态标记。
+                                              %       通常在书籍类文档中，前言（FrontMatter）用罗马数字页码，
+                                              %       进入正文（MainMatter）后改为阿拉伯数字。
+                                              %       这个开关可能用于控制页眉页脚的显示格式或页码计数逻辑。

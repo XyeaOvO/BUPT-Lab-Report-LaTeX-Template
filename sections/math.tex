@@ -1,0 +1,51 @@
+﻿\section{数学与定理环境}\label{sec:math}
+\begin{definition}{离散时间卷积}{conv}
+给定序列 $x[n]$ 与 $h[n]$，离散时间卷积定义为
+\begin{equation}\label{eq:conv}
+  y[n]=\sum_{m=0}^{M-1}h[m]x[n-m].
+\end{equation}
+该式为后续滤波器分析的基础，亦可与 \cref{eq:dft} 对比理解频域乘法关系。
+\end{definition}
+
+\begin{definition}{离散傅里叶变换}{dft}
+对长度为 $N$ 的序列 $x[n]$，其 DFT 与 IDFT 表达式为
+\begin{align}
+X[k] &= \sum_{n=0}^{N-1}x[n]e^{-j\frac{2\pi}{N}nk}, \label{eq:dft}\\
+x[n] &= \frac{1}{N}\sum_{k=0}^{N-1}X[k]e^{j\frac{2\pi}{N}nk}. \label{eq:idft}
+\end{align}
+\end{definition}
+
+\begin{theorem}{采样定理}{sampling}
+若连续时间信号的最高频率为 $f_{\max}$，则采样频率需满足 $f_s\ge 2f_{\max}$ 才能无失真重建。
+\end{theorem}
+\begin{proofzh}
+在频域中，采样相当于频谱周期延拓。若 $f_s<2f_{\max}$，频谱会发生重叠，导致混叠无法恢复原信号。
+\end{proofzh}
+
+为展示分段函数与矩阵排版，定义一个有限长低通脉冲响应：
+\begin{equation}\label{eq:lp}
+  h[n]=\begin{cases}
+  \dfrac{\sin(\omega_c n)}{\pi n}, & n\ne 0,\\
+  \dfrac{\omega_c}{\pi}, & n=0.
+  \end{cases}
+\end{equation}
+并写作矩阵形式 $\bm{X}=\bm{F}\bm{x}$，其中
+\[
+\bm{F}=\frac{1}{\sqrt{N}}\begin{bmatrix}
+1 & 1 & 1 & \cdots & 1\\
+1 & \omega & \omega^2 & \cdots & \omega^{N-1}\\
+1 & \omega^2 & \omega^4 & \cdots & \omega^{2(N-1)}\\
+\vdots & \vdots & \vdots & \ddots & \vdots\\
+1 & \omega^{N-1} & \omega^{2(N-1)} & \cdots & \omega^{(N-1)^2}
+\end{bmatrix}.
+\]
+
+\ifUseBiblatex
+相关系统分析与采样讨论可参考 \cite{nyquist1928certain,oppenheim2010dsp}。
+\fi
+\ifUseGlossaries
+术语示例：\gls{nyquist}、\gls{lti}、\gls{quantization}。
+\fi
+\ifUseIndex
+关键术语：卷积\index{卷积}、离散傅里叶变换\index{离散傅里叶变换}、采样定理\index{采样定理}、混叠\index{混叠}。
+\fi

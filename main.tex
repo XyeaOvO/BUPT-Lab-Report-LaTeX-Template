@@ -1,0 +1,28 @@
+% !TeX program = xelatex
+% !TeX encoding = UTF-8
+\documentclass[12pt,a4paper,oneside,fontset=none]{ctexart}
+
+\input{tex/meta}
+\input{tex/setup}
+\input{tex/optional}
+\input{tex/cover}
+\input{tex/structure}
+
+\begin{document}
+
+\MakeCover
+\BeginFrontMatter
+
+\input{sections/abstract}
+\MakeTOC
+\BeginMainMatter
+\input{sections/overview}
+\input{sections/math}
+\input{sections/algorithm}
+\input{sections/tables}
+\input{sections/circuit}
+\input{sections/plots}
+\input{sections/appendix}
+\input{sections/backmatter}
+
+\end{document}

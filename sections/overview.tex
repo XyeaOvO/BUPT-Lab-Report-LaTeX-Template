@@ -1,0 +1,42 @@
+﻿\section{示例文档导览}\label{sec:overview}
+\begin{tipbox}
+本示例以“开关式模块化”为核心：在 `tex/meta.tex` 中集中控制算法、代码高亮、参考文献、术语表、索引、批注与水印等功能，主文档保持干净稳定。
+\end{tipbox}
+
+\begin{warnbox}
+若启用 `minted`，编译需加入 `-shell-escape`；使用 `biblatex` 需要 biber；术语表与缩略语需运行 `makeglossaries`。详情可参考 \url{https://ctan.org/pkg/minted} 与 \url{https://ctan.org/pkg/glossaries}。
+\end{warnbox}
+
+\begin{alertbox}
+水印用于草稿流转，最终提交前请将 `\UseWatermarkfalse` 关闭，避免正式文档出现“DRAFT”。
+\end{alertbox}
+
+本示例围绕数字信号处理场景组织内容，通过第\ref{sec:math}节、第\ref{sec:algorithm}节、第\ref{sec:tables}节、第\ref{sec:circuit}节与第\ref{sec:plots}节展示数学、算法、表格、图像、电路与绘图模块的协同工作，并以交叉引用确保一致性。示例中用 \SI{48}{\kilo\hertz} 和 \SI{3.3}{\kilo\hertz} 标注参数，展示 `siunitx` 的规范单位写法。
+
+\ifUseTodo
+\todo[inline]{将“实验结果分析”替换为你的实际项目结论，并添加关键图表。}
+\fi
+
+\ifUseBiblatex
+模板示例引用了经典文献 \cite{knuth1984texbook,oppenheim2010dsp,cooley1965algorithm}，展示自动编号与参考文献列表。
+\fi
+\ifUseGlossaries
+术语示例：\gls{dft}、\gls{fft}、\gls{nyquist}、\gls{psd}；缩略语示例：\gls{adc}、\gls{snr}、\gls{lti}。
+\fi
+\ifUseIndex
+关键术语索引：数字信号处理\index{数字信号处理}、频谱分析\index{频谱分析}、窗函数\index{窗函数}、采样定理\index{采样定理}。
+\fi
+
+\subsection{编译与流程}
+\begin{enumerate}[label=\textcolor{BUPTBlue}{\bfseries \arabic*.}]
+  \item 先运行一次编译生成辅助文件，再执行 biber 与 makeglossaries，最后二次编译更新引用与索引。
+  \item 图表与公式统一用 \verb|\cref| 引用，避免手动编号出错，见 \cref{eq:dft,alg:os,tab:spec,fig:layout,fig:plot}。
+  \item 若需要快速关闭某模块，仅需切换 `tex/meta.tex` 中的布尔开关。
+\end{enumerate}
+
+\subsubsection{排版规范与风格}
+\begin{itemize}
+  \item 统一使用 `booktabs` 处理表格线条，避免竖线；使用 `threeparttable` 添加表注。
+  \item 代码块使用 `maccode` 环境，并在标题中注明文件名；算法用 `algorithm2e` 自动编号。
+  \item 重要提醒用彩色盒子高亮，定义与定理使用统一样式，增强可读性。
+\end{itemize}

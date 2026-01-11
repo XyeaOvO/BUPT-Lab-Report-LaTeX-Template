@@ -1,0 +1,24 @@
+% =========================================================
+% 13) 常用骨架
+% =========================================================
+\setcounter{tocdepth}{3} % include subsubsection in toc
+\newcommand{\BeginFrontMatter}{%
+  \pagenumbering{Roman}
+  \MainMatterfalse
+}
+\newcommand{\MakeTOC}{%
+  \clearpage
+  \tableofcontents
+  \clearpage
+}
+\newcommand{\BeginMainMatter}{%
+  \pagenumbering{arabic}
+  \MainMattertrue
+}
+\newcommand{\FrontMatter}{%
+  \BeginFrontMatter
+  \MakeTOC
+  \BeginMainMatter
+}
+\newenvironment{AbstractZH}{\section*{摘要}\addcontentsline{toc}{section}{摘要}}{\par}
+\newcommand{\KeywordsZH}[1]{\par\noindent\textbf{关键词：}#1\par}

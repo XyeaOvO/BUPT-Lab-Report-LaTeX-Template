@@ -1,0 +1,59 @@
+﻿\section{表格与图像}\label{sec:tables}
+表格建议统一使用 `booktabs` 与 `threeparttable`，并通过 `xcolor` 强调表头。\cref{tab:spec,tab:window} 展示了规格表与窗函数对比，\cref{fig:layout} 展示了位图与矢量图并排排版。
+
+\begin{table}[htbp]
+\centering
+\caption{滤波器设计规格}\label{tab:spec}
+\begin{tabularx}{\textwidth}{lcc>{\raggedright\arraybackslash}X}
+\toprule
+\rowcolor{BUPTBlue!10}
+参数 & 数值 & 单位 & 说明 \\
+\midrule
+采样率 $f_s$ & 48 & \si{\kilo\hertz} & 音频处理常见采样率 \\
+通带边缘 $f_p$ & 3.0 & \si{\kilo\hertz} & 通带纹波 $\leq 1\,\si{\decibel}$ \\
+阻带边缘 $f_s$ & 4.0 & \si{\kilo\hertz} & 阻带衰减 $\geq 60\,\si{\decibel}$ \\
+过渡带宽 $\Delta f$ & 1.0 & \si{\kilo\hertz} & 由规格推导 \\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+\begin{table}[htbp]
+\centering
+\begin{threeparttable}
+\caption{窗函数对比}\label{tab:window}
+\begin{tabular}{lccc}
+\toprule
+窗函数 & 主瓣宽度 & 最大旁瓣 & 典型用途 \\
+\midrule
+Rect & 窄 & 高 & 快速粗略分析 \\
+Hann & 中等 & \SI{-31.5}{\decibel} & 频谱估计 \\
+Hamming & 中等 & \SI{-42.7}{\decibel} & 滤波器设计 \\
+Blackman & 宽 & \SI{-58}{\decibel} & 高抑制需求 \\
+\bottomrule
+\end{tabular}
+\begin{tablenotes}\footnotesize
+\item 注：旁瓣衰减为近似值，实际结果与长度和零填充策略有关。
+\end{tablenotes}
+\end{threeparttable}
+\end{table}
+
+\begin{figure}[htbp]
+\centering
+\begin{subfigure}[t]{0.48\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{image.png}
+  \caption{位图示意}
+\end{subfigure}
+\hfill
+\begin{subfigure}[t]{0.48\textwidth}
+  \centering
+  \begin{tikzpicture}[scale=0.9]
+    \draw[fill=BUPTBlue!10,draw=BUPTBlue] (0,0) rectangle (4,2.5);
+    \draw[thick,->] (0.4,0.5) -- (3.6,2.0);
+    \node at (2,1.25) {矢量构图};
+    \draw[thick] (0.6,2.1) circle (0.25);
+  \end{tikzpicture}
+  \caption{矢量示意}
+\end{subfigure}
+\caption{图像与矢量元素并排排版}\label{fig:layout}
+\end{figure}

@@ -1,0 +1,60 @@
+% =========================================================
+% 12) 可选：参考文献 / 术语表 / 索引 / 批注 / 水印
+% =========================================================
+\ifUseBiblatex
+  \usepackage{csquotes}
+  \usepackage[
+    backend=biber,
+    style=ieee,       % 直接使用 ieee 风格，比 generic numeric 更标准
+    sorting=none,     % 按照文中出现的顺序排序（这是 CS 的规矩）
+    doi=false,        % 许多时候不需要显示 DOI，除非学校要求
+    isbn=false,       % 不需要显示 ISBN
+    url=false         % 除非是网页引用，否则通常不显示论文 URL
+  ]{biblatex}
+  \addbibresource{refs.bib}
+\fi
+
+\ifUseGlossaries
+  \usepackage[acronym,toc]{glossaries}
+  \makeglossaries
+  \input{tex/glossary}
+\fi
+
+\newif\ifUseIndex \UseIndextrue % 确保定义了开关
+
+\ifUseIndex
+  \usepackage{imakeidx}
+
+  \begin{filecontents*}{mystyle.ist}
+    headings_flag 1
+    heading_prefix "{\\bfseries\\Large "
+    heading_suffix "}\\nopagebreak"  % 删掉了这里的 \n，防止报错
+    symhead_positive "符号"
+    numhead_positive "数字"
+    delim_0 "\\dotfill "
+  \end{filecontents*}
+
+  % 保持 noautomatic
+  \makeindex[intoc, options=-s mystyle.ist, title=索引, noautomatic]
+\fi
+
+\ifUseTodo
+  \usepackage[colorinlistoftodos]{todonotes}
+\else
+  % 如果开关关闭，我们需要定义空的命令
+  % 否则编译时遇到 \todo 会报错说 "Undefined control sequence"
+  \usepackage[disable]{todonotes}
+\fi
+
+\ifUseWatermark
+  \usepackage{xcolor}
+  \usepackage{background}
+  \backgroundsetup{
+    scale=1,
+    color=gray,
+    opacity=0.10,
+    angle=45,
+    position={current page.center},
+    contents={{\heiti\bfseries\fontsize{60}{60}\selectfont 草稿}}
+  }
+\fi
