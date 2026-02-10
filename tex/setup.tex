@@ -7,7 +7,7 @@
   \PackageError{lab-report}{Please use XeLaTeX or LuaLaTeX}{}
 \else
   \usepackage{fontspec}
-  
+
   % --- 字体设置辅助宏 (使用 expl3 语法，安全处理空格) ---
   \ExplSyntaxOn
   % 定义一个命令：\SetFontWithFallback{设置命令}{选项}{字体列表}
@@ -37,27 +37,27 @@
   \SetFontWithFallback{\setmainfont}{
     Ligatures=TeX
   }{TeX Gyre Pagella, Palatino Linotype, Times New Roman}
-  
+
   % Sans: 优先 Heros (Helvetica), 其次 Arial
   \SetFontWithFallback{\setsansfont}{
     Scale=MatchLowercase
   }{TeX Gyre Heros, Helvetica, Arial}
-  
-  % Mono: 优先 JetBrains Mono, 其次 Consolas
+
+  % Mono: 优先常见跨平台等宽字体，尽量避免无效字体探测噪声
   \SetFontWithFallback{\setmonofont}{
     Scale=MatchLowercase
-  }{JetBrains Mono, Consolas, Courier New}
+  }{JetBrains Mono, DejaVu Sans Mono, Latin Modern Mono, Courier New, Consolas}
 
   % --- 2. 中文字体配置 ---
   % 注意：ctexart 会自动加载 xeCJK，这里我们覆盖它的设置
   % 优先：思源宋体/黑体；保底：Windows 中易宋体/黑体 (SimSun/SimHei)
-  
+
 \ifXeTeX
     % XeTeX 下开启伪粗体 (AutoFakeBold)，防止粗体不显示
     \SetFontWithFallback{\setCJKmainfont}{
       AutoFakeBold=2, AutoFakeSlant=0.15
     }{思源宋体 CN, Source Han Serif SC, Noto Serif CJK SC, SimSun, 宋体}
-    
+
     \SetFontWithFallback{\setCJKsansfont}{
       AutoFakeBold=2
     }{思源黑体, Source Han Sans SC, Noto Sans CJK SC, Microsoft YaHei, 微软雅黑, SimHei, 黑体}
@@ -70,7 +70,7 @@
     % LuaLaTeX 配置
     \SetFontWithFallback{\setCJKmainfont}{
     }{思源宋体 CN, Source Han Serif SC, Noto Serif CJK SC, SimSun, 宋体}
-    
+
     \SetFontWithFallback{\setCJKsansfont}{
     }{思源黑体, Source Han Sans SC, Noto Sans CJK SC, Microsoft YaHei, 微软雅黑, SimHei, 黑体}
 
@@ -80,25 +80,25 @@
 
   % --- 3. 数学字体 ---
   \usepackage{amsmath}
-  \usepackage{mathtools} 
-  
+  \usepackage{mathtools}
+
   \ifUseUnicodeMath
     % --- A. 现代模式：Unicode Math ---
     \usepackage[math-style=ISO,bold-style=ISO]{unicode-math}
-    
+
     % 配置数学字体 (使用 fontspec 原生命令检测即可)
     \IfFontExistsTF{TeX Gyre Pagella Math}{
       \setmathfont{TeX Gyre Pagella Math}
     }{
       \setmathfont{Latin Modern Math}
     }
-    
+
     % 兼容性定义：让 \bm{} 在 unicode-math 下也能用 (映射为 \symbf)
     \providecommand{\bm}[1]{\symbf{#1}}
   \else
     % --- B. 传统模式：PDFLaTeX/XeLaTeX 传统数学 ---
-    \usepackage{amssymb} 
-    \usepackage{bm} 
+    \usepackage{amssymb}
+    \usepackage{bm}
   \fi
 \fi
 
@@ -225,8 +225,8 @@
 \usepackage{lastpage}
 
 % 防止 fancyhdr 报 "headheight is too small" 警告
-\setlength{\headheight}{28pt}
-\savegeometry{main} 
+\setlength{\headheight}{30pt}
+\savegeometry{main}
 
 % Logo 绘制逻辑
 \newcommand{\DrawLogo}{%
@@ -240,7 +240,7 @@
 
 % --- 页眉设置 ---
 % 左侧放 Logo（如果存在），视觉上更平衡
-\fancyhead[L]{\DrawLogo} 
+\fancyhead[L]{\DrawLogo}
 % 右侧放 课程名 | 报告标题（层级高）
 \fancyhead[R]{%
     \small\sffamily\color{GrayText}%
@@ -361,19 +361,10 @@
   }%
 }
 
-% --- 3. 字体设置 (可选，推荐用更好看的等宽字体) ---
-% 如果电脑没装这些字体，LaTeX 会使用默认的 ttfamily，不会报错
-\IfFontExistsTF{JetBrains Mono}{
-    \setmonofont[Scale=MatchLowercase]{JetBrains Mono}
-}{
-    \IfFontExistsTF{Consolas}{
-        \setmonofont[Scale=MatchLowercase]{Consolas}
-    }{}
-}
-
 \ifUseMinted
   % ==================== Minted 引擎 ====================
-  \usepackage{minted}
+  % latexmk 使用 -output-directory=build 时，minted 需要同步 outputdir
+  \usepackage[outputdir=build]{minted}
   \tcbuselibrary{minted}
 
   % 修改为 [3][] : 接受三个参数 (#1=可选配置, #2=文件名/标题, #3=语言)
@@ -390,7 +381,7 @@
     % 使用 #3 作为语言
     minted language=#3,
     minted options={
-        fontsize=\small, breaklines=true, linenos=true, autogobble, 
+        fontsize=\small, breaklines=true, linenos=true, autogobble,
         tabsize=4, numbersep=5pt, xleftmargin=10pt
     },
     #1 % 允许插入额外选项
@@ -409,16 +400,16 @@
     numbers=left,
     numberstyle=\tiny\color{gray!50}\sffamily, % 行号样式：浅灰、无衬线
     numbersep=8pt,   % 行号和代码的距离
-    
+
     % [关键] 布局修正
     xleftmargin=2.5em,  % 整体左缩进：给行号留出足够空间！
     framexleftmargin=0em,
-    
+
     breaklines=true,
     tabsize=4,
     showstringspaces=false,
     captionpos=b,
-    
+
     % 紧凑布局
     aboveskip=0pt,
     belowskip=0pt,

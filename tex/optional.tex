@@ -39,10 +39,12 @@
 \fi
 
 \ifUseTodo
+  \setlength{\marginparwidth}{2cm}
   \usepackage[colorinlistoftodos]{todonotes}
 \else
   % 如果开关关闭，我们需要定义空的命令
   % 否则编译时遇到 \todo 会报错说 "Undefined control sequence"
+  \setlength{\marginparwidth}{2cm}
   \usepackage[disable]{todonotes}
 \fi
 

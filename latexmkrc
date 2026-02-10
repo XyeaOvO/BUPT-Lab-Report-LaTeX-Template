@@ -7,7 +7,7 @@ $aux_dir = 'build';
 
 # 2. 编译引擎设置
 $pdf_mode = 5; # 5 表示使用 xelatex 生成 pdf
-$xelatex = 'xelatex -interaction=nonstopmode -file-line-error -synctex=1 -shell-escape %O %S';
+$xelatex = 'xelatex -interaction=nonstopmode -file-line-error -halt-on-error -synctex=1 -shell-escape %O %S';
 
 # 3. 参考文献引擎 (如果你的论文使用 biber)
 $bibtex = 'biber';
